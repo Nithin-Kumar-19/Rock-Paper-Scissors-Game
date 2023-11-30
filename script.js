@@ -1,130 +1,121 @@
-const buttons = document.querySelectorAll(".pick");
-const myScoreEle = document.getElementById("your-score");
-const pcScoreEle = document.getElementById("computer-score");
-const bottom = document.getElementById("bottom");
+const buttons = document.querySelectorAll(".pick");// this is for button vaiable
+const userScoresElement = document.getElementById("your-score");
+const ComScore = document.getElementById("computer-score");
+const last = document.getElementById("bottom");
 const result = document.getElementById("result");
 const playAgain = document.getElementById("play-again");
 const playAgainWin = document.getElementById("play-again-win");
-const your_choice = document.getElementById("your-choice");
-const pc_choice = document.getElementById("pc-choice");
-const against = document.getElementById("against");
-const matchDraw = document.getElementById("draw");
-const rulesPopup = document.getElementById("popup");
-const scoreCard = document.getElementById("scorecard");
-const winPage = document.getElementById("winPage");
-const yourFinal = document.getElementById("your-final");
-const pcFinal = document.getElementById("pc-final");
+const user_choices = document.getElementById("your-choice");
 
 // Function Buttons
-const buttonNext = document.getElementById("next");
-const buttonRules = document.getElementById("rules");
-const buttonRulesWin = document.getElementById("rules-win");
+const btnNxt = document.getElementById("next");
+const btnRegulations = document.getElementById("regulations");
+const btnRegulationsWin = document.getElementById("regulations-win");
 const closeBtn = document.getElementById("close");
 
 const options = ["paper", "rock", "scissors"];
 
-let userMove = undefined;
-let myScore = Number(getMyScore());
-let pcScore = Number(getPCScore());
+let Gamersstep = undefined;
+let userScores = Number(getuserScores());
+let comScore = Number(getcomScore());
 
 buttons.forEach((button) => {
 	button.addEventListener("click", () => {
-		userMove = button.getAttribute("selection");
+		Gamersstep = button.getAttribute("selection");
 		winner();
 	});
 });
 
 playAgain.addEventListener("click", () => {
-	bottom.style.display = "flex";
+	last.style.display = "flex";
 	result.style.display = "none";
-	buttonRules.style.visibility = "visible";
-	buttonNext.style.visibility = "hidden";
-	buttonRulesWin.style.visibility = "hidden";
+	btnRegulations.style.visibility = "visible";
+	btnNxt.style.visibility = "hidden";
+	btnRegulationsWin.style.visibility = "hidden";
 });
 playAgainWin.addEventListener("click", () => {
-	scoreCard.style.display = "flex";
-	bottom.style.display = "flex";
+	totalScore.style.display = "flex";
+	last.style.display = "flex";
 	result.style.display = "none";
 	winPage.style.display = "none";
 });
 
-buttonRules.addEventListener("click", () => {
-	rulesPopup.style.display = "flex";
+btnRegulations.addEventListener("click", () => {
+	regulationsPopup.style.display = "flex";
 });
-buttonRulesWin.addEventListener("click", () => {
-	rulesPopup.style.display = "flex";
+btnRegulationsWin.addEventListener("click", () => {
+	regulationsPopup.style.display = "flex";
 });
 
 closeBtn.addEventListener("click", () => {
-	rulesPopup.style.display = "none";
+	regulationsPopup.style.display = "none";
 });
-buttonNext.addEventListener("click", () => {
-	scoreCard.style.display = "none";
-	bottom.style.display = "none";
+btnNxt.addEventListener("click", () => {
+	totalScore.style.display = "none";
+	last.style.display = "none";
 	result.style.display = "none";
 	winPage.style.display = "flex";
-	buttonRules.style.visibility = "visible";
-	buttonNext.style.visibility = "hidden";
-	buttonRulesWin.style.visibility = "hidden";
+	btnRegulations.style.visibility = "visible";
+	btnNxt.style.visibility = "hidden";
+	btnRegulationsWin.style.visibility = "hidden";
 });
 
 function winner() {
-	const pcMove = randomMove();
-	displayResult(your_choice, userMove);
-	displayResult(pc_choice, pcMove);
-	if (userMove === pcMove) {
+	const comStep = randomMove();
+	displayResult(user_choices, Gamersstep);
+	displayResult(pc_choice, comStep);
+	if (Gamersstep === comStep) {
 		//draw
 		matchDraw.innerText = "TIE UP";
 		against.style.visibility = "hidden";
 		playAgain.innerText = "Replay";
-		// buttonRulesWin.style.visibility = "hidden";
-		buttonRules.style.visibility = "visible";
-		buttonNext.style.visibility = "hidden";
+		// btnRegulationsWin.style.visibility = "hidden";
+		btnRegulations.style.visibility = "visible";
+		btnNxt.style.visibility = "hidden";
 		pc_choice.classList.remove("winner");
-		your_choice.classList.remove("winner");
+		user_choices.classList.remove("winner");
 	} else if (
-		(userMove === "paper" && pcMove === "rock") ||
-		(userMove === "rock" && pcMove === "scissors") ||
-		(userMove === "scissors" && pcMove === "paper")
+		(Gamersstep === "paper" && comStep === "rock") ||
+		(Gamersstep === "rock" && comStep === "scissors") ||
+		(Gamersstep === "scissors" && comStep === "paper")
 	) {
-		//user won
-		updateMyScore(1);
+		// this  is about the game won by user
+		updateuserScores(1);
 		matchDraw.innerText = "You Won";
 		against.style.visibility = "visible";
 		playAgain.innerText = "Play Again";
-		buttonNext.style.visibility = "visible";
-		buttonRules.style.visibility = "hidden";
-		buttonRulesWin.style.visibility = "visible";
-		your_choice.classList.add("winner");
+		btnNxt.style.visibility = "visible";
+		btnRegulations.style.visibility = "hidden";
+		btnRegulationsWin.style.visibility = "visible";
+		user_choices.classList.add("winner");
 		pc_choice.classList.remove("winner");
-		// buttonRules.style.marginRight = "170px";
 	} else {
 		//pc won
-		updatePCScore(1);
+		updatecomScore(1);
 		matchDraw.innerText = "You Lost";
 		against.style.visibility = "visible";
 		playAgain.innerText = "Play Again";
-		// buttonRulesWin.style.visibility = "hidden";
-		buttonRules.style.visibility = "visible";
-		buttonNext.style.visibility = "hidden";
+		// btnRegulationsWin.style.visibility = "hidden";
+		btnRegulations.style.visibility = "visible";
+		btnNxt.style.visibility = "hidden";
 		pc_choice.classList.add("winner");
-		your_choice.classList.remove("winner");
+		user_choices.classList.remove("winner");
 	}
 	// display result
-	bottom.style.display = "none";
+	last.style.display = "none";
 	result.style.display = "flex";
 }
 
-function updateMyScore(value) {
-	myScore += value;
-	myScoreEle.innerText = myScore;
-	updateMyScoreLocalStorage();
+function updateuserScores(value) {
+	userScores += value;
+	userScoresElement.innerText = userScores;
+	updateuserScoresLocalStorage();
 }
 
-function updatePCScore(value) {
-	pcScore += value;
-	pcScoreEle.innerText = pcScore;
-	updatePCScoreLocalStorage();
+function updatecomScore(value) {
+	comScore += value;
+	ComScore.innerText = comScore;
+	updatecomScoreLocalStorage();
 }
 
 function randomMove() {
@@ -142,42 +133,42 @@ function displayResult(selected, option) {
 	icon.alt = option;
 }
 
-function updateMyScoreLocalStorage() {
-	return localStorage.setItem("myScore", myScore);
+function updateuserScoresLocalStorage() {
+	return localStorage.setItem("userScores", userScores);
 }
-function updatePCScoreLocalStorage() {
-	return localStorage.setItem("pcScore", pcScore);
+function updatecomScoreLocalStorage() {
+	return localStorage.setItem("comScore", comScore);
 }
 
-function getMyScore() {
-	const numReg = /^-?[\d.]+(?:e-?\d+)?$/;
-	let myScore;
+function getuserScores() {
+	const numReg = /^-?[\d.]+(?:e-?\d+)?$/
+	let userScores;
 	if (
-		localStorage.getItem("myScore") === null ||
-		!localStorage.getItem("myScore").match(numReg)
+		localStorage.getItem("userScores") === null ||
+		!localStorage.getItem("userScores").match(numReg)
 	) {
-		localStorage.setItem("myScore", "0");
-		myScore = "0";
+		localStorage.setItem("userScores", "0");
+		userScores = "0";
 	} else {
-		myScore = localStorage.getItem("myScore");
-		myScoreEle.innerText = localStorage.getItem("myScore");
+		userScores = localStorage.getItem("userScores");
+		userScoresElement.innerText = localStorage.getItem("userScores");
 	}
 
-	return myScore;
+	return userScores;
 }
-function getPCScore() {
+function getcomScore() {
 	const numReg = /^-?[\d.]+(?:e-?\d+)?$/;
-	let pcScore;
+	let comScore;
 	if (
-		localStorage.getItem("pcScore") === null ||
-		!localStorage.getItem("pcScore").match(numReg)
+		localStorage.getItem("comScore") === null ||
+		!localStorage.getItem("comScore").match(numReg)
 	) {
-		localStorage.setItem("pcScore", "0");
-		pcScore = "0";
+		localStorage.setItem("comScore", "0");
+		comScore = "0";
 	} else {
-		pcScore = localStorage.getItem("pcScore");
-		pcScoreEle.innerText = localStorage.getItem("pcScore");
+		comScore = localStorage.getItem("comScore");
+		ComScore.innerText = localStorage.getItem("comScore");
 	}
 
-	return pcScore;
+	return comScore;
 }
