@@ -2,7 +2,7 @@ const buttons = document.querySelectorAll(".pick");// this is for button vaiable
 const userScoresElement = document.getElementById("your-score");
 const ComScore = document.getElementById("computer-score");
 const last = document.getElementById("bottom");
-const result = document.getElementById("result");
+const final-result = document.getElementById("final-result");
 const playAgain = document.getElementById("play-again");
 const playAgainWin = document.getElementById("play-again-win");
 const user_choices = document.getElementById("your-choice");
@@ -28,7 +28,7 @@ buttons.forEach((button) => {
 
 playAgain.addEventListener("click", () => {
 	last.style.display = "flex";
-	result.style.display = "none";
+	final-result.style.display = "none";
 	btnRegulations.style.visibility = "visible";
 	btnNxt.style.visibility = "hidden";
 	btnRegulationsWin.style.visibility = "hidden";
@@ -36,7 +36,7 @@ playAgain.addEventListener("click", () => {
 playAgainWin.addEventListener("click", () => {
 	totalScore.style.display = "flex";
 	last.style.display = "flex";
-	result.style.display = "none";
+	final-result.style.display = "none";
 	winPage.style.display = "none";
 });
 
@@ -53,7 +53,7 @@ closeBtn.addEventListener("click", () => {
 btnNxt.addEventListener("click", () => {
 	totalScore.style.display = "none";
 	last.style.display = "none";
-	result.style.display = "none";
+	final-result.style.display = "none";
 	winPage.style.display = "flex";
 	btnRegulations.style.visibility = "visible";
 	btnNxt.style.visibility = "hidden";
@@ -62,8 +62,8 @@ btnNxt.addEventListener("click", () => {
 
 function winner() {
 	const comStep = randomMove();
-	displayResult(user_choices, Gamersstep);
-	displayResult(pc_choice, comStep);
+	displayfinal-result(user_choices, Gamersstep);
+	displayfinal-result(pc_choice, comStep);
 	if (Gamersstep === comStep) {
 		//draw
 		matchDraw.innerText = "TIE UP";
@@ -101,9 +101,9 @@ function winner() {
 		pc_choice.classList.add("winner");
 		user_choices.classList.remove("winner");
 	}
-	// display result
+	// display final-result
 	last.style.display = "none";
-	result.style.display = "flex";
+	final-result.style.display = "flex";
 }
 
 function updateuserScores(value) {
@@ -122,7 +122,7 @@ function randomMove() {
 	return options[Math.floor(Math.random() * options.length)];
 }
 
-function displayResult(selected, option) {
+function displayfinal-result(selected, option) {
 	selected.classList.remove("btn-rock");
 	selected.classList.remove("btn-paper");
 	selected.classList.remove("btn-scissors");
